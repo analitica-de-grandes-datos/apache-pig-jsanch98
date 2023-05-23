@@ -18,8 +18,7 @@ Escriba el resultado a la carpeta `output` del directorio actual. Para la
 evaluación, pig sera eejcutado ejecutado en modo local:
 
 $ pig -x local -f pregunta.pig
-
-        /* >>> Escriba su respuesta a partir de este punto <<< */
+>>> Escriba su respuesta a partir de este punto <<< 
 */
 lines = LOAD 'data.csv' USING PigStorage(',') AS (f1:int, f2:chararray, f3:chararray, f4:chararray, f5:chararray);
 colors_f = FILTER lines BY STARTSWITH(f5, 'b');
