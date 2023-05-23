@@ -22,4 +22,7 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
-
+persons = LOAD 'data.csv' USING PigStorage(',') AS (f1:int, f2:chararray, f3:chararray, f4:chararray, f5:chararray);
+dates = FOREACH persons GENERATE ToDate(f4, 'yyyy-MM-dd') AS birthday;
+dates_2 = FOREACH dates GENERATE GetYear(birthday), ToString(birthday, 'yy');
+STORE dates_2 INTO 'output' USING PigStorage(',');

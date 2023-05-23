@@ -20,4 +20,8 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
-
+lines = LOAD 'data.csv' USING PigStorage(',') AS (f1:int, f2:chararray, f3:chararray);
+last_names = FOREACH lines GENERATE f3 AS last_name, SIZE(f3) AS length;
+last_names_order = ORDER last_names BY length desc, last_name asc;
+chunk = LIMIT last_names_order 5;
+STORE chunk INTO 'output' USING PigStorage(',');
