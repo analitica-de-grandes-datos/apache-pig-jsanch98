@@ -33,4 +33,15 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
-
+people = LOAD 'data.csv' USING PigStorage(',') AS (f1:int, f2:chararray, f3:chararray, f4:chararray, f5:chararray);
+dates = FOREACH people GENERATE ToDate(f4, 'yyyy-MM-dd') AS birthday;
+dates_2 = FOREACH dates GENERATE ToString(birthday, 'yyyy-MM-dd') AS full_date, ToString(birthday, 'dd') AS full_day, ToString(birthday, 'd') AS day, LOWER(ToString(birthday, 'EEEEE')) AS week_day;
+dates_3 = FOREACH dates_2 GENERATE full_date, full_day, day, REPLACE(week_day, 'monday', 'lunes') AS week_day;
+dates_4 = FOREACH dates_3 GENERATE full_date, full_day, day, REPLACE(week_day, 'tuesday', 'martes') AS week_day;
+dates_5 = FOREACH dates_4 GENERATE full_date, full_day, day, REPLACE(week_day, 'wednesday', 'miercoles') AS week_day;
+dates_6 = FOREACH dates_5 GENERATE full_date, full_day, day, REPLACE(week_day, 'thursday', 'jueves') AS week_day;
+dates_7 = FOREACH dates_6 GENERATE full_date, full_day, day, REPLACE(week_day, 'friday', 'viernes') AS week_day;
+dates_8 = FOREACH dates_7 GENERATE full_date, full_day, day, REPLACE(week_day, 'saturday', 'sabado') AS week_day;
+dates_9 = FOREACH dates_8 GENERATE full_date, full_day, day, REPLACE(week_day, 'sunday', 'domingo') AS week_day;
+dates_10 = FOREACH dates_9 GENERATE full_date, full_day, day, SUBSTRING(week_day, 0, 3) AS week_day_s, week_day;
+STORE dates_10 INTO 'output' USING PigStorage(',');
